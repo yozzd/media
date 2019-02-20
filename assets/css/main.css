@@ -1,0 +1,106 @@
+@font-face {
+  font-family: 'SF Text';
+  src: url('/font/SF-UI-Text-Regular.otf');
+}
+html {
+  font-family: 'SF Text';
+  font-size: 13px;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  box-sizing: border-box;
+  height: 100%;
+}
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+  margin: 0;
+}
+body {
+  position: relative;
+  margin: 0;
+  min-height: 100%;
+  color: #37352f;
+  font-family: inherit;
+  font-size: inherit;
+}
+.ivu-layout,
+.ivu-layout-header,
+.ivu-layout-footer {
+  background: #ffffff;
+}
+.ivu-layout-header,
+.ivu-menu-horizontal {
+  height: 46px;
+  line-height: 46px;
+}
+.ivu-menu {
+  position: inherit;
+}
+.ivu-menu-light.ivu-menu-horizontal .ivu-menu-item,
+.ivu-menu-light.ivu-menu-horizontal .ivu-menu-submenu {
+  border-bottom: 0;
+}
+.ivu-menu-light.ivu-menu-horizontal .ivu-menu-item-active,
+.ivu-menu-light.ivu-menu-horizontal .ivu-menu-item:hover,
+.ivu-menu-light.ivu-menu-horizontal .ivu-menu-submenu-active,
+.ivu-menu-light.ivu-menu-horizontal .ivu-menu-submenu:hover {
+  color: #37352f;
+  border-bottom: 0;
+}
+.ivu-layout-content {
+  padding: 20px 50px 0;
+  margin-bottom: 60px;
+}
+.ivu-layout-footer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 12px 50px;
+}
+.list-inline {
+  padding-left: 0;
+  margin-left: -5px;
+  list-style: none;
+}
+.list-inline > li {
+  display: inline-block;
+  padding-right: 5px;
+  padding-left: 5px;
+}
+.ivu-menu,
+.ivu-menu-item,
+.ivu-input,
+.ivu-btn,
+.ivu-form-item-content,
+.ivu-alert,
+.ivu-table,
+.ivu-breadcrumb,
+.ivu-checkbox-wrapper,
+.ivu-select-single .ivu-select-selection .ivu-select-placeholder,
+.ivu-select-single .ivu-select-selection .ivu-select-selected-value {
+  font-size: 13px;
+}
+.ivu-menu-horizontal .ivu-menu-submenu .ivu-select-dropdown .ivu-menu-item,
+.ivu-select-item {
+  font-size: 13px !important;
+}
+.ivu-form-item {
+  margin-bottom: 32px;
+}
+.ivu-menu-light.ivu-menu-horizontal .ivu-menu-item-active {
+  font-weight: bold;
+}
+.ivu-menu-horizontal .ivu-menu-submenu .ivu-select-dropdown .ivu-menu-item {
+  font-weight: normal;
+}
+.ivu-input-group-append,
+.ivu-input-group-prepend {
+  padding: 2px 7px;
+}
+.ivu-btn:focus {
+  box-shadow: none;
+}

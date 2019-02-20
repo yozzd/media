@@ -8,8 +8,10 @@ module.exports = {
     parser: 'babel-eslint'
   },
   extends: [
-    '@nuxtjs'
+    '@nuxtjs',
+    'airbnb-base',
   ],
-  // add your custom rules here
-  rules: {}
+  rules: {
+    'import/no-extraneous-dependencies': 0,
+  }
 }
