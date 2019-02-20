@@ -12,13 +12,21 @@
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "lintfix": "eslint --ext .js,.vue --ignore-path .gitignore . --fix",
     "precommit": "npm run lint",
-    "test": "ava"
+    "test": "ava --verbose --fail-fast"
   },
   "dependencies": {
+    "@nuxtjs/apollo": "^4.0.0-rc4",
     "@nuxtjs/pwa": "^2.6.0",
+    "apollo-link-http": "^1.5.11",
     "cross-env": "^5.2.0",
     "express": "^4.16.4",
+    "express-graphql": "^0.7.1",
+    "fs-extra": "^7.0.1",
+    "graphql": "^14.1.1",
+    "graphql-errors": "^2.1.0",
+    "graphql-tag": "^2.10.1",
     "iview": "^3.1.5",
+    "lodash": "^4.17.11",
     "nuxt": "^2.4.0",
     "vue-property-decorator": "^7.3.0"
   },
@@ -44,5 +52,26 @@
     "require-extension-hooks": "^0.3.3",
     "require-extension-hooks-babel": "^1.0.0-beta.1",
     "require-extension-hooks-vue": "^2.0.0"
+  },
+  "ava": {
+    "require": [
+      "./test/helpers/setup.js"
+    ]
+  },
+  "babel": {
+    "plugins": [
+      [
+        "@babel/plugin-proposal-decorators",
+        {
+          "legacy": true
+        }
+      ],
+      [
+        "@babel/plugin-proposal-class-properties",
+        {
+          "loose": true
+        }
+      ]
+    ]
   }
 }
