@@ -22,3 +22,5 @@ const setup = {
     await app.listen(port, host);
   },
 };
+
+module.exports = setup;
