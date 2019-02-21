@@ -48,19 +48,24 @@ class Home extends Vue {
     },
     {
       title: 'Name',
-      minWidth: 180,
+      width: 300,
       sortable: true,
       render: (h, params) => h('div', [
         h(
           'nuxt-link',
           {
             props: {
-              to: params.row.path,
+              to: params.row.name,
             },
           },
           params.row.name,
         ),
       ]),
+    },
+    {
+      title: 'Size (MB)',
+      minWidth: 100,
+      render: (h, params) => (h('div', [h('span', params.row.size / 1000000)])),
     },
   ];
 }

@@ -28,13 +28,13 @@ import { GET_TREE } from '../../apollo/queries/media';
       query: GET_TREE,
       variables() {
         return {
-          dir: `media/${this.$route.params.slug1}`,
+          dir: `media/${this.$route.params.slug1}/${this.$route.params.slug2}/${this.$route.params.slug3}`,
         };
       },
     },
   },
 })
-class Slug1 extends Vue {
+class Slug3 extends Vue {
   getTree = {
     children: [],
   };
@@ -42,7 +42,9 @@ class Slug1 extends Vue {
   breadcrumb() {
     return [
       { label: 'Home', to: '/' },
-      { label: this.$route.params.slug1 },
+      { label: this.$route.params.slug1, to: `/${this.$route.params.slug1}` },
+      { label: this.$route.params.slug2, to: `/${this.$route.params.slug1}/${this.$route.params.slug2}` },
+      { label: this.$route.params.slug3 },
     ];
   }
 
@@ -68,7 +70,7 @@ class Slug1 extends Vue {
           'nuxt-link',
           {
             props: {
-              to: _.drop(_.split(params.row.path, '/', 3), 1).join('/'),
+              to: _.drop(_.split(params.row.path, '/', 5), 3).join('/'),
             },
           },
           params.row.name,
@@ -83,5 +85,5 @@ class Slug1 extends Vue {
   ];
 }
 
-export default Slug1;
+export default Slug3;
 </script>
