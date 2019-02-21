@@ -28,7 +28,7 @@ import { GET_TREE } from '../../apollo/queries/media';
       query: GET_TREE,
       variables() {
         return {
-          dir: `media${this.$route.path}`,
+          dir: `static/media${this.$route.path}`,
         };
       },
     },
@@ -70,7 +70,7 @@ class Slug2 extends Vue {
           'nuxt-link',
           {
             props: {
-              to: _.drop(_.split(params.row.path, '/', 4), 2).join('/'),
+              to: _.drop(_.split(params.row.path, '/', 5), 3).join('/'),
             },
           },
           params.row.name,
@@ -80,7 +80,7 @@ class Slug2 extends Vue {
     {
       title: 'Size (MB)',
       minWidth: 100,
-      render: (h, params) => (h('div', [h('span', params.row.size / 1000000)])),
+      render: (h, params) => (h('div', params.row.size / 1000000)),
     },
   ];
 }

@@ -29,6 +29,7 @@
     "iview": "^3.2.2",
     "lodash": "^4.17.11",
     "nuxt": "^2.4.0",
+    "vue-plyr": "^5.1.0",
     "vue-property-decorator": "^7.3.0"
   },
   "devDependencies": {

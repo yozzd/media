@@ -24,16 +24,17 @@ module.exports = {
   /*
    ** Global CSS
    */
-  css: ['iview/dist/styles/iview.css'],
+  css: [
+    'iview/dist/styles/iview.css',
+    '@/assets/css/main.css',
+    '@/static/iconfont/iconfont.css',
+    'vue-plyr/dist/vue-plyr.css',
+  ],
 
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [
-    '@/plugins/iview',
-    '@/assets/css/main.css',
-    '@/static/iconfont/iconfont.css',
-  ],
+  plugins: ['@/plugins/iview', '@/plugins/vue-plyr'],
 
   /*
    ** Nuxt.js modules

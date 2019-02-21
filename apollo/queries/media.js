@@ -6,6 +6,7 @@ export const GET_TREE = gql`
       path
       name
       size
+      extension
       type
       children {
         path
