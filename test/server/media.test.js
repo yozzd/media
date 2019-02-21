@@ -31,8 +31,8 @@ test.serial('get directory tree', async (t) => {
         }
       }`,
       variables: {
-        dir: 'media/CCTV'
-      }
+        dir: 'media/CCTV',
+      },
     })
     .expect(200);
 
