@@ -87,7 +87,7 @@ import _ from 'lodash';
     },
     pageSizes: {
       type: Array,
-      default: () => ([10, 50, 100]),
+      default: () => ([10, 50, 100, 200]),
     },
     loading: {
       type: Boolean,

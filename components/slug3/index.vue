@@ -28,7 +28,7 @@ import { GET_TREE } from '../../apollo/queries/media';
       query: GET_TREE,
       variables() {
         return {
-          dir: `media/${this.$route.params.slug1}/${this.$route.params.slug2}/${this.$route.params.slug3}`,
+          dir: `media${this.$route.path}`,
         };
       },
     },
@@ -40,11 +40,12 @@ class Slug3 extends Vue {
   };
 
   breadcrumb() {
+    const { slug1, slug2, slug3 } = this.$route.params;
     return [
       { label: 'Home', to: '/' },
-      { label: this.$route.params.slug1, to: `/${this.$route.params.slug1}` },
-      { label: this.$route.params.slug2, to: `/${this.$route.params.slug1}/${this.$route.params.slug2}` },
-      { label: this.$route.params.slug3 },
+      { label: slug1, to: `/${slug1}` },
+      { label: slug2, to: `/${slug1}/${slug2}` },
+      { label: slug3 },
     ];
   }
 
