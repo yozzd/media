@@ -1,8 +1,10 @@
 <template>
   <div>
-    <vue-plyr>
-      <video :src="data"></video>
-    </vue-plyr>
+    <Row type="flex" justify="center" class="player">
+      <vue-plyr :options="options">
+        <video :src="data"></video>
+      </vue-plyr>
+    </Row>
   </div>
 </template>
 
@@ -16,7 +18,29 @@ import { Vue, Component } from 'vue-property-decorator';
     },
   },
 })
-class VideoPlayer extends Vue {}
+class VideoPlayer extends Vue {
+  options = {
+    controls: [
+      'play-large',
+      'play',
+      'progress',
+      'current-time',
+      'volume',
+      'settings',
+      'download',
+      'fullscreen',
+    ],
+    tooltips: { controls: true },
+    resetOnEnd: true,
+    invertTime: false,
+  };
+}
 
 export default VideoPlayer;
 </script>
+
+<style scoped>
+.player {
+  margin-top: 20px;
+}
+</style>

@@ -62,7 +62,7 @@ class Slug1 extends Vue {
     },
     {
       title: 'Name',
-      width: 300,
+      width: 600,
       sortable: true,
       render: (h, params) => h('div', [
         h(
@@ -79,7 +79,7 @@ class Slug1 extends Vue {
     {
       title: 'Size (MB)',
       minWidth: 100,
-      render: (h, params) => (h('div', params.row.size / 1000000)),
+      render: (h, params) => (h('div', (params.row.size / 1000000).toFixed(2))),
     },
   ];
 }
