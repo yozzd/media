@@ -67,6 +67,17 @@ class Slug2 extends Vue {
       sortable: true,
       render: (h, params) => h('div', [
         h(
+          'i',
+          {
+            class: {
+              'ivu-icon': true,
+              iconfont: true,
+              fw: true,
+              'icon-folder': true,
+            },
+          },
+        ),
+        h(
           'nuxt-link',
           {
             props: {

@@ -104,3 +104,7 @@ body {
 .ivu-btn:focus {
   box-shadow: none;
 }
+.fw {
+  width: 24px;
+  margin-bottom: 1px;
+}

@@ -68,6 +68,18 @@ class Slug3 extends Vue {
       sortable: true,
       render: (h, params) => h('div', [
         h(
+          'i',
+          {
+            class: {
+              'ivu-icon': true,
+              iconfont: true,
+              fw: true,
+              'icon-video': params.row.extension === '.mp4',
+              'icon-image': params.row.extension !== '.mp4',
+            },
+          },
+        ),
+        h(
           'nuxt-link',
           {
             props: {
