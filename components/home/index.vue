@@ -23,7 +23,7 @@ import { GET_TREE } from '../../apollo/queries/media';
     getTree: {
       query: GET_TREE,
       variables: {
-        dir: 'static/media/',
+        path: null,
       },
     },
   },
@@ -66,7 +66,7 @@ class Home extends Vue {
           'nuxt-link',
           {
             props: {
-              to: params.row.name,
+              to: `/${params.row.name}`,
             },
           },
           params.row.name,

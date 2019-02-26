@@ -34,7 +34,11 @@ module.exports = {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['@/plugins/iview', '@/plugins/vue-plyr'],
+  plugins: [
+    '@/plugins/iview',
+    '@/plugins/vue-plyr',
+    '@/plugins/vue-lazyload',
+  ],
 
   /*
    ** Nuxt.js modules

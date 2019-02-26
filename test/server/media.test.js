@@ -15,11 +15,12 @@ test.serial('get directory tree', async (t) => {
     .set('Accept', 'application/json')
     .send({
       query: `
-      query getTree($dir: String!) {
-        getTree(dir: $dir) {
+      query getTree($path: String) {
+        getTree(path: $path) {
           path
           name
           size
+          extension
           type
           children {
             path
@@ -31,11 +32,14 @@ test.serial('get directory tree', async (t) => {
         }
       }`,
       variables: {
-        dir: 'media/CCTV',
+        // path: null,
+        // path: '/SPECIAL_EVENTS/Test',
+        // path: '/SPECIAL_EVENTS/wp',
+        path: '/SPECIAL_EVENTS/Test/Test/wp',
       },
     })
     .expect(200);
 
   const { getTree } = response.body.data;
-  t.is(getTree.children[0], '');
+  t.is(getTree, '');
 });

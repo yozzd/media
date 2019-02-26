@@ -161,7 +161,7 @@ class DataTable extends Vue {
     if (!this.showPagination) {
       this.pagination.pageSize = cacheData.length;
     }
-    this.tableData = this.dataFilter(cacheData);
+    this.tableData = _.sortBy(this.dataFilter(cacheData), ['type']);
     this.total = cacheData.length;
   }
 

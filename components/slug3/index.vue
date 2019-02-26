@@ -27,8 +27,12 @@ import { GET_TREE } from '../../apollo/queries/media';
     getTree: {
       query: GET_TREE,
       variables() {
+        const path = Object.values(this.$route.params).reduce((r, v) => {
+          r += `/${v}`;
+          return r;
+        }, '');
         return {
-          dir: `static/media${this.$route.path}`,
+          path,
         };
       },
     },
@@ -55,47 +59,48 @@ class Slug3 extends Vue {
     },
   };
 
-  columns = [
-    {
-      title: '#',
-      width: 60,
-      align: 'center',
-      type: 'index',
-    },
-    {
-      title: 'Name',
-      width: 600,
-      sortable: true,
-      render: (h, params) => h('div', [
-        h(
-          'i',
-          {
+  get columns() {
+    const { slug1, slug2, slug3 } = this.$route.params;
+    return [
+      {
+        title: '#',
+        width: 60,
+        align: 'center',
+        type: 'index',
+      },
+      {
+        title: 'Name',
+        width: 600,
+        sortable: true,
+        render: (h, params) => h('div', [
+          h('i', {
             class: {
               'ivu-icon': true,
               iconfont: true,
               fw: true,
-              'icon-video': params.row.extension === '.mp4',
-              'icon-image': params.row.extension !== '.mp4',
+              'icon-folder': params.row.type === 'directory' && params.row.extension === null,
+              'icon-video': params.row.type === 'file' && params.row.extension === '.mp4',
+              'icon-image': params.row.type === 'file' && params.row.extension !== '.mp4',
             },
-          },
-        ),
-        h(
-          'nuxt-link',
-          {
-            props: {
-              to: _.drop(_.split(params.row.path, '/', 6), 4).join('/'),
+          }),
+          h(
+            'nuxt-link',
+            {
+              props: {
+                to: params.row.type === 'directory' ? `/${slug1}/${slug2}/${slug3}/${params.row.name}` : `/${slug1}/${slug2}/${slug3}/${_.split(params.row.name, params.row.extension, 1)}`,
+              },
             },
-          },
-          params.row.name,
-        ),
-      ]),
-    },
-    {
-      title: 'Size (MB)',
-      minWidth: 100,
-      render: (h, params) => (h('div', (params.row.size / 1000000).toFixed(2))),
-    },
-  ];
+            params.row.name,
+          ),
+        ]),
+      },
+      {
+        title: 'Size (MB)',
+        minWidth: 100,
+        render: (h, params) => h('div', (params.row.size / 1000000).toFixed(2)),
+      },
+    ];
+  }
 }
 
 export default Slug3;

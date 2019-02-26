@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
 export const GET_TREE = gql`
-  query getTree($dir: String!) {
-    getTree(dir: $dir) {
+  query getTree($path: String) {
+    getTree(path: $path) {
       path
       name
       size
