@@ -36,8 +36,7 @@ class RouteJump extends Vue {
     const arr = Object.values(this.data);
     const index = await Promise.resolve(arr.findIndex(v => this.$route.path === `${this.path}/${v.name.split(v.extension)[0]}`));
     const el = this.$el.querySelector('.ivu-scroll-container');
-    const m = el.offsetHeight / (el.scrollHeight / arr.length);
-    el.scrollTop = m * index * 5;
+    el.scrollTop = 38 * index;
     return true;
   }
 }
