@@ -29,7 +29,7 @@
     "graphql-tag": "^2.10.1",
     "iview": "^3.2.2",
     "lodash": "^4.17.11",
-    "nuxt": "^2.4.0",
+    "nuxt": "^2.4.5",
     "vue-lazyload": "^1.2.6",
     "vue-plyr": "^5.1.0",
     "vue-property-decorator": "^7.3.0"
@@ -56,7 +56,8 @@
     "require-extension-hooks": "^0.3.3",
     "require-extension-hooks-babel": "^1.0.0-beta.1",
     "require-extension-hooks-vue": "^2.0.0",
-    "supertest": "^3.4.2"
+    "supertest": "^3.4.2",
+    "vue-template-compiler": "^2.6.7"
   },
   "ava": {
     "require": [

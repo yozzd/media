@@ -42,18 +42,24 @@ import { GET_TREE } from '../../apollo/queries/media';
     },
   },
 })
-class Slug3 extends Vue {
+class Slug4 extends Vue {
   getTree = {
     children: [],
   };
 
   breadcrumb() {
-    const { slug1, slug2, slug3 } = this.$route.params;
+    const {
+      slug1,
+      slug2,
+      slug3,
+      slug4,
+    } = this.$route.params;
     return [
       { label: 'Home', to: '/' },
       { label: slug1, to: `/${slug1}` },
       { label: slug2, to: `/${slug1}/${slug2}` },
-      { label: slug3 },
+      { label: slug3, to: `/${slug1}/${slug2}/${slug3}` },
+      { label: slug4 },
     ];
   }
 
@@ -64,7 +70,12 @@ class Slug3 extends Vue {
   };
 
   get columns() {
-    const { slug1, slug2, slug3 } = this.$route.params;
+    const {
+      slug1,
+      slug2,
+      slug3,
+      slug4,
+    } = this.$route.params;
     return [
       {
         title: '#',
@@ -91,7 +102,7 @@ class Slug3 extends Vue {
             'nuxt-link',
             {
               props: {
-                to: params.row.type === 'directory' ? `/${slug1}/${slug2}/${slug3}/${params.row.name}` : `/${slug1}/${slug2}/${slug3}/${_.split(params.row.name, params.row.extension, 1)}`,
+                to: params.row.type === 'directory' ? `/${slug1}/${slug2}/${slug3}/${slug4}/${params.row.name}` : `/${slug1}/${slug2}/${slug3}/${slug4}/${_.split(params.row.name, params.row.extension, 1)}`,
               },
             },
             params.row.name,
@@ -107,5 +118,5 @@ class Slug3 extends Vue {
   }
 }
 
-export default Slug3;
+export default Slug4;
 </script>
