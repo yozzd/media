@@ -34,7 +34,6 @@
       ref="table"
       :columns="columns"
       :data="tableData"
-      :loading="loading"
       size="small"
       @on-filter-change="handleFilterChange"
       @on-selection-change="selection => onSelectionChange(selection)"
@@ -88,10 +87,6 @@ import _ from 'lodash';
     pageSizes: {
       type: Array,
       default: () => ([10, 50, 100, 200]),
-    },
-    loading: {
-      type: Boolean,
-      default: false,
     },
   },
 })

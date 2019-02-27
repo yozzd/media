@@ -1,10 +1,10 @@
 <template>
   <div>
+    <Spin v-if="$apollo.loading" size="large" fix></Spin>
     <data-table
       :data="getTree.children"
       :filter-options="filterOptions"
       :columns="columns"
-      :loading="$apollo.loading"
     >
     </data-table>
   </div>
