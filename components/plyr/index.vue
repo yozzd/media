@@ -88,4 +88,7 @@ export default Plyr;
 img.img-container {
   width: 100%;
 }
+video {
+  height: 500px;
+}
 </style>

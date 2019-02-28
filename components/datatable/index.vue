@@ -35,7 +35,6 @@
       :columns="columns"
       :data="tableData"
       size="small"
-      @on-filter-change="handleFilterChange"
       @on-selection-change="selection => onSelectionChange(selection)"
     >
     </Table>
@@ -156,7 +155,7 @@ class DataTable extends Vue {
     if (!this.showPagination) {
       this.pagination.pageSize = cacheData.length;
     }
-    this.tableData = _.sortBy(this.dataFilter(cacheData), ['type']);
+    this.tableData = this.dataFilter(_.sortBy(cacheData, ['type']));
     this.total = cacheData.length;
   }
 
@@ -192,52 +191,10 @@ class DataTable extends Vue {
         );
         return arrData.every(k => k);
       });
-      this.tableData = this.dataFilter(filterData);
+      this.tableData = this.dataFilter(_.sortBy(filterData, ['type']));
       this.total = filterData.length;
     } else {
-      this.handleFilterChange(this.columnFilter);
-    }
-  }
-
-  async handleFilterChange(column) {
-    this.columnFilter = column;
-    const { cacheLocalData } = this;
-    // eslint-disable-next-line no-underscore-dangle
-    if (column._filterChecked.length) {
-      const reduceData = await Promise.all(
-        _.reduce(
-          column.filters,
-          (r, v) => {
-            r.push(v.value);
-            return r;
-          },
-          [],
-        ),
-      );
-      const pullAllData = await Promise.all(
-        // eslint-disable-next-line no-underscore-dangle
-        _.pullAll(reduceData, column._filterChecked),
-      );
-      const reduceDataAgain = await Promise.all(
-        _.reduce(
-          pullAllData,
-          (r, v) => {
-            const obj = {
-              role: v,
-            };
-            r.push(obj);
-            return r;
-          },
-          [],
-        ),
-      );
-      const pullData = await Promise.all(
-        _.differenceBy(cacheLocalData, reduceDataAgain, 'role'),
-      );
-      this.tableData = this.dataFilter(pullData);
-      this.total = pullData.length;
-    } else {
-      this.tableData = this.dataFilter(cacheLocalData);
+      this.tableData = this.dataFilter(_.sortBy(cacheLocalData, ['type']));
       this.total = cacheLocalData.length;
     }
   }
