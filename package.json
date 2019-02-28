@@ -31,7 +31,7 @@
     "lodash": "^4.17.11",
     "nuxt": "^2.4.5",
     "vue-lazyload": "^1.2.6",
-    "vue-plyr": "^5.1.0",
+    "vue-plyr": "^5.1.2",
     "vue-property-decorator": "^7.3.0"
   },
   "devDependencies": {
