@@ -5,7 +5,9 @@
       <vue-plyr v-if="data.extension === '.mp4'" :options="options">
         <video :src="getFile"></video>
       </vue-plyr>
-      <img v-else v-lazy="getFile" class="img-container" />
+      <Row v-else type="flex" justify="center" align="middle" class="img-container">
+        <img v-lazy="getFile" />
+      </Row>
       </Col>
       <Col :span="6">
       <route-jump :data="getChildren" :path="path" />
@@ -85,9 +87,14 @@ export default Plyr;
 .player {
   margin-top: 20px;
 }
-img.img-container {
-  width: 100%;
+.img-container {
+  background-color: #000;
 }
+img {
+  width: auto;
+  height: 100%;
+}
+.img-container,
 video {
   height: 500px;
 }

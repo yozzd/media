@@ -7,7 +7,7 @@
             <Cell
               v-for="(c, idx) in tData"
               :key="idx"
-              :title="c.name"
+              :title="truncate(c.name)"
               :to="`${path}/${c.name.split(c.extension)[0]}`"
               :selected="$route.path === `${path}/${c.name.split(c.extension)[0]}`"
             />
@@ -53,6 +53,11 @@ class RouteJump extends Vue {
     const el = this.$el.querySelector('.ivu-scroll-container');
     el.scrollTop = 38 * idx2;
     return true;
+  }
+
+  truncate = (s) => {
+    const t = s.length >= 28 ? `${s.substring(0, 28)} ...` : s;
+    return t;
   }
 
   infiniteHandler($state) {
