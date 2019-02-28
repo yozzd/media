@@ -30,8 +30,9 @@
     "iview": "^3.2.2",
     "lodash": "^4.17.11",
     "nuxt": "^2.4.5",
+    "vue-infinite-loading": "^2.4.3",
     "vue-lazyload": "^1.2.6",
-    "vue-plyr": "^5.1.2",
+    "vue-plyr": "^5.1.1",
     "vue-property-decorator": "^7.3.0"
   },
   "devDependencies": {

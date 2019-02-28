@@ -38,6 +38,7 @@ module.exports = {
     '@/plugins/iview',
     '@/plugins/vue-plyr',
     '@/plugins/vue-lazyload',
+    '@/plugins/vue-infinite-loading',
   ],
 
   /*
