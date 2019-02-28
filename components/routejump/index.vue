@@ -68,7 +68,7 @@ class RouteJump extends Vue {
       setTimeout(() => {
         this.tData.push(...this.data.slice(last + 1, last + 11));
         $state.loaded();
-      }, 2000);
+      }, 1000);
     }
   }
 }

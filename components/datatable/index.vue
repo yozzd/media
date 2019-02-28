@@ -7,7 +7,7 @@
         v-model="filter"
         :placeholder="`Filter By ${cap(select)}`"
         class="filter"
-        @on-enter="handleFilter"
+        @on-keyup="handleFilter"
       >
       <Select slot="prepend" v-model="select" placeholder="Select">
         <Option
@@ -103,11 +103,6 @@ class DataTable extends Vue {
       }
       return 20;
     })(),
-  };
-
-  columnFilter = {
-    // eslint-disable-next-line no-underscore-dangle
-    _filterChecked: [],
   };
 
   tableData = [];
