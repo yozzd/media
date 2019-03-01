@@ -145,12 +145,12 @@ class DataTable extends Vue {
         'You must set attribute \'data\' and \'data\' must be a array.',
       );
     }
-    const cacheData = JSON.parse(JSON.stringify(data));
+    const cacheData = _.sortBy(JSON.parse(JSON.stringify(data)), 'type');
     this.cacheLocalData = cacheData;
     if (!this.showPagination) {
       this.pagination.pageSize = cacheData.length;
     }
-    this.tableData = this.dataFilter(_.sortBy(cacheData, ['type']));
+    this.tableData = this.dataFilter(cacheData);
     this.total = cacheData.length;
   }
 
@@ -186,10 +186,10 @@ class DataTable extends Vue {
         );
         return arrData.every(k => k);
       });
-      this.tableData = this.dataFilter(_.sortBy(filterData, ['type']));
+      this.tableData = this.dataFilter(filterData, ['type']);
       this.total = filterData.length;
     } else {
-      this.tableData = this.dataFilter(_.sortBy(cacheLocalData, ['type']));
+      this.tableData = this.dataFilter(cacheLocalData, ['type']);
       this.total = cacheLocalData.length;
     }
   }
