@@ -109,6 +109,7 @@ body {
   width: 24px;
   margin-bottom: 1px;
 }
-.ivu-page-item {
+.ivu-page-item,
+.ivu-page-item a {
   font-family: inherit;
 }
