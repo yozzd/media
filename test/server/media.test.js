@@ -60,4 +60,4 @@ test.serial('generate thumbnail', async (t) => {
 
   const { result } = response.body.data.genThumb;
   t.true(result);
-})
+});

@@ -3,7 +3,7 @@ const _ = require('lodash');
 const dirTree = require('directory-tree');
 const fm = require('file-matcher');
 const { MediaType, GenType } = require('./media.type');
-const { gThumb } = require('./media.method');
+const { generateThumbnail } = require('./media.method');
 
 const fileMatcher = new fm.FileMatcher();
 const base = 'static/media';
@@ -24,8 +24,19 @@ const Query = {
             fileNamePattern: `**${args.path}*`,
           },
         });
-        // const path = !args.path ? base : !s.length ? base + args.path : _.join(_.drop(_.split(s[0], '/', 12), 5), '/');
-        const path = !args.path ? base : !s.length ? base + args.path : _.join(_.drop(_.split(s[0], '/', 12), 3), '/');
+
+        let path;
+        if (args.path) {
+          if (s.length) {
+            // path = _.join(_.drop(_.split(s[0], '/', 12), 5), '/');
+            path = _.join(_.drop(_.split(s[0], '/', 12), 3), '/');
+          } else {
+            path = base + args.path;
+          }
+        } else {
+          path = base;
+        }
+
         const tree = await dirTree(path);
         return tree;
       } catch (err) {
@@ -37,7 +48,7 @@ const Query = {
     type: GenType,
     resolve: async () => {
       try {
-        const gen = await gThumb();
+        const gen = await generateThumbnail();
         return gen;
       } catch (err) {
         throw err;
@@ -52,13 +63,7 @@ const Mutation = {
     args: {
       dirName: { type: GraphQLString },
     },
-    resolve: async () => {
-      try {
-        return true;
-      } catch (err) {
-        throw err;
-      }
-    },
+    resolve: () => true,
   },
 };
 

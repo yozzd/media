@@ -5,12 +5,16 @@ const glob = require('glob');
 const ffmpeg = require('ffmpeg-static');
 const genThumbnail = require('simple-thumbnail');
 
-const gThumb = async () => {
+const generateThumbnail = async () => {
   const tree1 = await glob.sync('**/*', { cwd: 'static/media/' });
   const tr = await glob.sync('**/*', { cwd: 'static/thumbnails/' });
   const tree2 = await Promise.all(_.reduce(tr, (r, v) => {
     const { dir, name } = path.parse(v);
-    dir !== '' ? r.push(`${dir}/${name}`) : r.push(name);
+    if (dir !== '') {
+      r.push(`${dir}/${name}`);
+    } else {
+      r.push(name);
+    }
     return r;
   }, []));
   const diff = _.difference(tree1, tree2);
@@ -35,5 +39,5 @@ const gThumb = async () => {
 };
 
 module.exports = {
-  gThumb,
+  generateThumbnail,
 };
