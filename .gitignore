@@ -84,3 +84,4 @@ dist
 sw.*
 
 static/media
+static/thumbnails
