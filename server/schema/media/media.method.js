@@ -26,7 +26,7 @@ const generateThumbnail = async () => {
       }
       const { ext } = path.parse(v);
       if (ext !== '') {
-        await genThumbnail(`static/media/${v}`, `static/thumbnails/${v}.png`, '?x50', {
+        await genThumbnail(`static/media/${v}`, `static/thumbnails/${v}.png`, '?x70', {
           path: ffmpeg.path,
           seek: ext === '.mp4' ? '00:00:05.000' : false,
         });

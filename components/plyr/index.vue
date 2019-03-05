@@ -1,15 +1,15 @@
 <template>
   <div>
     <Row type="flex" justify="space-between" :gutter="20" class="player">
-      <Col :span="18">
+      <Col :span="17">
       <vue-plyr v-if="data.extension === '.mp4'" :options="options">
         <video :src="getFile"></video>
       </vue-plyr>
-      <Row v-else type="flex" justify="center" align="middle" class="img-container">
+      <div v-else class="img-container">
         <img v-lazy="getFile" />
-      </Row>
+      </div>
       </Col>
-      <Col :span="6">
+      <Col :span="7">
       <route-jump :data="getChildren" :path="path" />
       </Col>
     </Row>
@@ -88,14 +88,16 @@ export default Plyr;
   margin-top: 20px;
 }
 .img-container {
+  display: flex;
+  justify-content: center;
   background-color: #000;
 }
-img {
+.img-container > img {
   width: auto;
   height: 100%;
 }
 .img-container,
 video {
-  height: 600px;
+  height: 500px;
 }
 </style>

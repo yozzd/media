@@ -1,16 +1,18 @@
 <template>
   <div>
-    <Row type="flex" class="routejump">
+    <Row type="flex" class="content">
       <Card title="List" icon="ios-options" :padding="0" shadow>
-        <Scroll>
+        <Scroll height="400">
           <CellGroup>
             <Cell
               v-for="(c, idx) in tData"
               :key="idx"
-              :title="truncate(c.name)"
+              :title="truncate(c.name, 40)"
               :to="`${path}/${c.name.split(c.extension)[0]}`"
               :selected="$route.path === `${path}/${c.name.split(c.extension)[0]}`"
-            />
+            >
+            <img v-lazy="thumb(c.path)" slot="extra" />
+            </Cell>
             <no-ssr>
               <infinite-loading
                 v-if="tData.length < data.length"
@@ -51,12 +53,12 @@ class RouteJump extends Vue {
     const arr2 = Object.values(this.tData);
     const idx2 = await Promise.resolve(arr2.findIndex(v => this.$route.path === `${this.path}/${v.name.split(v.extension)[0]}`));
     const el = this.$el.querySelector('.ivu-scroll-container');
-    el.scrollTop = 38 * idx2;
+    el.scrollTop = 84 * idx2;
     return true;
   }
 
-  truncate = (s) => {
-    const t = s.length >= 28 ? `${s.substring(0, 28)} ...` : s;
+  truncate = (s, v) => {
+    const t = s.length >= v ? `${s.substring(0, v)} ...` : s;
     return t;
   }
 
@@ -71,6 +73,12 @@ class RouteJump extends Vue {
       }, 1000);
     }
   }
+
+  thumb = (path) => {
+    const p = path.split('static')[1];
+    const t = p.replace('media', 'thumbnails');
+    return `${t}.png`;
+  }
 }
 
 export default RouteJump;
@@ -80,8 +88,32 @@ export default RouteJump;
 .ivu-card {
   width: 100%;
 }
-.ivu-cell {
+/deep/ .ivu-cell {
   white-space: normal;
+}
+/deep/ .ivu-cell-item {
+  display: flex;
+  flex-direction: row;
+  height: 70px;
+}
+/deep/ .ivu-cell-main {
+  display: flex;
+  order: 2;
+  width: 100%;
+}
+/deep/ .ivu-cell-footer {
+  display: flex;
+  order: 1;
+  position: unset;
+  transform: unset;
+  top: unset;
+  margin-right: 8px;
+  width: 234px;
+  background-color: #000;
+  justify-content: center;
+}
+/deep/ .ivu-cell-with-link .ivu-cell-footer {
+  right: unset;
 }
 .info {
   margin-top: 20px;
