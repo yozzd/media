@@ -28,6 +28,7 @@ const generateThumbnail = async () => {
       if (ext !== '') {
         await genThumbnail(`static/media/${v}`, `static/thumbnails/${v}.png`, '?x50', {
           path: ffmpeg.path,
+          seek: ext === '.mp4' ? '00:00:05.000' : false,
         });
       }
     }),
