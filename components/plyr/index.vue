@@ -2,7 +2,7 @@
   <div>
     <Row type="flex" justify="space-between" :gutter="20" class="player">
       <Col :span="18">
-      <vue-plyr v-if="data.extension === '.mp4'" :options="options">
+      <vue-plyr v-if="data.extension === '.mp4' || '.mov'" :options="options">
         <video :src="getFile"></video>
       </vue-plyr>
       <Row v-else type="flex" justify="center" align="middle" class="img-container">

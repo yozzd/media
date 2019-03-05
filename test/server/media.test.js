@@ -43,3 +43,21 @@ test.serial('get directory tree', async (t) => {
   const { getTree } = response.body.data;
   t.is(getTree, '');
 });
+
+test.serial('generate thumbnail', async (t) => {
+  const response = await request(uri)
+    .post('/graphql')
+    .set('Accept', 'application/json')
+    .send({
+      query: `
+      query {
+        genThumb {
+          result
+        }
+      }`,
+    })
+    .expect(200);
+
+  const { result } = response.body.data.genThumb;
+  t.true(result);
+})

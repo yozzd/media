@@ -1,8 +1,10 @@
-const { GraphQLList, GraphQLString } = require('graphql');
+const { GraphQLString } = require('graphql');
 const _ = require('lodash');
-const { MediaType } = require('./media.type');
 const dirTree = require('directory-tree');
 const fm = require('file-matcher');
+const { MediaType, GenType } = require('./media.type');
+const { gThumb } = require('./media.method');
+
 const fileMatcher = new fm.FileMatcher();
 const base = 'static/media';
 
@@ -22,10 +24,21 @@ const Query = {
             fileNamePattern: `**${args.path}*`,
           },
         });
-        // const path = !args.path ? base : !s.length ? base + args.path : _.join(_.drop(_.split(s[0], '/', 12), 5), '/')
-        const path = !args.path ? base : !s.length ? base + args.path : _.join(_.drop(_.split(s[0], '/', 12), 3), '/')
+        // const path = !args.path ? base : !s.length ? base + args.path : _.join(_.drop(_.split(s[0], '/', 12), 5), '/');
+        const path = !args.path ? base : !s.length ? base + args.path : _.join(_.drop(_.split(s[0], '/', 12), 3), '/');
         const tree = await dirTree(path);
         return tree;
+      } catch (err) {
+        throw err;
+      }
+    },
+  },
+  genThumb: {
+    type: GenType,
+    resolve: async () => {
+      try {
+        const gen = await gThumb();
+        return gen;
       } catch (err) {
         throw err;
       }
@@ -39,9 +52,8 @@ const Mutation = {
     args: {
       dirName: { type: GraphQLString },
     },
-    resolve: async (parent, args) => {
+    resolve: async () => {
       try {
-        // console.log(args);
         return true;
       } catch (err) {
         throw err;

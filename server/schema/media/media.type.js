@@ -3,6 +3,7 @@ const {
   GraphQLList,
   GraphQLString,
   GraphQLFloat,
+  GraphQLBoolean,
 } = require('graphql');
 
 const ChildrenType = new GraphQLObjectType({
@@ -28,6 +29,14 @@ const MediaType = new GraphQLObjectType({
   }),
 });
 
+const GenType = new GraphQLObjectType({
+  name: 'GenType',
+  fields: () => ({
+    result: { type: GraphQLBoolean },
+  }),
+});
+
 module.exports = {
   MediaType,
+  GenType,
 };
