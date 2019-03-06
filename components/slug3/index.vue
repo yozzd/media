@@ -75,6 +75,7 @@ class Slug3 extends Vue {
       {
         title: 'Name',
         width: 600,
+        key: 'name',
         sortable: true,
         render: (h, params) => h('div', [
           h('i', {

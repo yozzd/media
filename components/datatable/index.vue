@@ -35,7 +35,7 @@
       :columns="columns"
       :data="tableData"
       size="small"
-      @on-selection-change="selection => onSelectionChange(selection)"
+      @on-sort-change="onSortChange"
     >
     </Table>
 
@@ -58,7 +58,7 @@
 
 <script>
 import {
-  Vue, Component, Watch, Emit,
+  Vue, Component, Watch,
 } from 'vue-property-decorator';
 import _ from 'lodash';
 
@@ -121,12 +121,6 @@ class DataTable extends Vue {
     this.loadLocalData(value);
   }
 
-  @Emit()
-  // eslint-disable-next-line class-methods-use-this
-  onSelectionChange(value) {
-    return value;
-  }
-
   cap(val) {
     const option = _.reduce(
       this.filterOptions.select.options,
@@ -139,7 +133,7 @@ class DataTable extends Vue {
     return option[val];
   }
 
-  loadLocalData(data) {
+  loadLocalData(data, type = 'asc') {
     if (!data) {
       throw new Error(
         'You must set attribute \'data\' and \'data\' must be a array.',
@@ -150,12 +144,17 @@ class DataTable extends Vue {
     if (!this.showPagination) {
       this.pagination.pageSize = cacheData.length;
     }
-    this.tableData = this.dataFilter(cacheData);
+    this.tableData = this.dataFilter(cacheData, type);
     this.total = cacheData.length;
   }
 
-  dataFilter(data) {
+  dataFilter(data, type) {
     const { pageIndex, pageSize } = this.pagination;
+    if (type === 'desc') {
+      return data
+        .reverse()
+        .filter((v, i) => i >= (pageIndex - 1) * pageSize && i < pageIndex * pageSize);
+    }
     return data.filter((v, i) => i >= (pageIndex - 1) * pageSize && i < pageIndex * pageSize);
   }
 
@@ -192,6 +191,11 @@ class DataTable extends Vue {
       this.tableData = this.dataFilter(cacheLocalData, ['type']);
       this.total = cacheLocalData.length;
     }
+  }
+
+  onSortChange(v) {
+    const { data } = this;
+    this.loadLocalData(data, v.order);
   }
 }
 
