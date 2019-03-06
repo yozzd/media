@@ -11,7 +11,7 @@
               :to="`${path}/${c.name.split(c.extension)[0]}`"
               :selected="$route.path === `${path}/${c.name.split(c.extension)[0]}`"
             >
-            <img v-lazy="thumb(c.path)" slot="extra" />
+              <img slot="extra" v-lazy="thumb(c.path)" />
             </Cell>
             <no-ssr>
               <infinite-loading
@@ -53,7 +53,7 @@ class RouteJump extends Vue {
     const arr2 = Object.values(this.tData);
     const idx2 = await Promise.resolve(arr2.findIndex(v => this.$route.path === `${this.path}/${v.name.split(v.extension)[0]}`));
     const el = this.$el.querySelector('.ivu-scroll-container');
-    el.scrollTop = 84 * idx2;
+    el.scrollTop = 85 * idx2;
     return true;
   }
 
@@ -90,6 +90,7 @@ export default RouteJump;
 }
 /deep/ .ivu-cell {
   white-space: normal;
+  border-bottom: 1px dashed #ddd;
 }
 /deep/ .ivu-cell-item {
   display: flex;
@@ -111,9 +112,13 @@ export default RouteJump;
   width: 234px;
   background-color: #000;
   justify-content: center;
+  border-radius: 2px;
 }
 /deep/ .ivu-cell-with-link .ivu-cell-footer {
   right: unset;
+}
+/deep/ .ivu-cell-arrow {
+  display: none;
 }
 .info {
   margin-top: 20px;
