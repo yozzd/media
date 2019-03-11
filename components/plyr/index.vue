@@ -1,7 +1,7 @@
 <template>
   <div>
     <Row type="flex" justify="space-between" :gutter="20" class="player">
-      <Col :span="17">
+      <Col :md="16" :lg="17" :xxl="20">
       <vue-plyr v-if="data.extension === '.mp4'" :options="options">
         <video :src="getFile"></video>
       </vue-plyr>
@@ -9,7 +9,7 @@
         <img v-lazy="getFile" />
       </div>
       </Col>
-      <Col :span="7">
+      <Col :md="8" :lg="7" :xxl="4">
       <route-jump :data="getChildren" :path="path" />
       </Col>
     </Row>
@@ -93,11 +93,7 @@ export default Plyr;
   background-color: #000;
 }
 .img-container > img {
-  width: auto;
+  width: 100%;
   height: 100%;
-}
-.img-container,
-video {
-  height: 500px;
 }
 </style>
