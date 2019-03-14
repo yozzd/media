@@ -1,44 +1,37 @@
-const { GraphQLString } = require('graphql');
-const _ = require('lodash');
-const dirTree = require('directory-tree');
-const fm = require('file-matcher');
+const fs = require('fs-extra');
+const { GraphQLString, GraphQLList, GraphQLInt } = require('graphql');
 const { MediaType, GenType } = require('./media.type');
-const { generateThumbnail } = require('./media.method');
+const { generateThumbnail, generateTree } = require('./media.method');
 
-const fileMatcher = new fm.FileMatcher();
-const base = 'static/media';
 
 const Query = {
   getTree: {
-    type: MediaType,
+    type: new GraphQLList(MediaType),
     args: {
-      path: { type: GraphQLString },
+      id: { type: GraphQLString },
+      sig: { type: GraphQLInt },
     },
-    resolve: async (parent, args) => {
+    resolve: async (p, args) => {
       try {
-        const s = await fileMatcher.find({
-          // path: `/media/data3/media/media/${base}`,
-          path: `/home/media/${base}`,
-          recursiveSearch: true,
-          fileFilter: {
-            fileNamePattern: `**${args.path}*`,
-          },
-        });
-
-        let path;
-        if (args.path) {
-          if (s.length) {
-            // path = _.join(_.drop(_.split(s[0], '/', 12), 5), '/');
-            path = _.join(_.drop(_.split(s[0], '/', 12), 3), '/');
-          } else {
-            path = base + args.path;
-          }
-        } else {
-          path = base;
+        const dirTree = await fs.readJson('./tools/dirTree.json');
+        if (args.id === '' && args.sig === 0) {
+          return dirTree.filter(v => v.parentId === args.id);
+        } if (args.id && args.sig === 0) {
+          return dirTree.filter(v => v.id === args.id);
         }
-
-        const tree = await dirTree(path);
-        return tree;
+        const f = dirTree.find(v => v.id === args.id);
+        return dirTree.filter(v => v.parentId === f.parentId && v.type === 'file');
+      } catch (err) {
+        throw err;
+      }
+    },
+  },
+  genTree: {
+    type: GenType,
+    resolve: async () => {
+      try {
+        const gen = await generateTree();
+        return gen;
       } catch (err) {
         throw err;
       }

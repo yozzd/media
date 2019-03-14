@@ -2,7 +2,8 @@
   <div>
     <Spin v-if="$apollo.loading" size="large" fix></Spin>
     <data-table
-      :data="getTree.children"
+      v-else
+      :data="getTree"
       :filter-options="filterOptions"
       :columns="columns"
     >
@@ -11,9 +12,10 @@
 </template>
 
 <script>
+import moment from 'moment';
 import { Vue, Component } from 'vue-property-decorator';
 import DataTable from '../datatable/index.vue';
-import { GET_TREE } from '../../apollo/queries/media';
+import GET_TREE from '../../apollo/queries/media';
 
 @Component({
   components: {
@@ -23,15 +25,14 @@ import { GET_TREE } from '../../apollo/queries/media';
     getTree: {
       query: GET_TREE,
       variables: {
-        path: null,
+        id: '',
+        sig: 0,
       },
     },
   },
 })
 class Home extends Vue {
-  getTree = {
-    children: [],
-  };
+  getTree = [];
 
   filterOptions = {
     select: {
@@ -48,7 +49,7 @@ class Home extends Vue {
     },
     {
       title: 'Name',
-      width: 600,
+      Width: 600,
       sortable: true,
       render: (h, params) => h('div', [
         h(
@@ -66,7 +67,7 @@ class Home extends Vue {
           'nuxt-link',
           {
             props: {
-              to: `/${params.row.name}`,
+              to: `/${params.row.id}`,
             },
           },
           params.row.name,
@@ -74,9 +75,9 @@ class Home extends Vue {
       ]),
     },
     {
-      title: 'Size (MB)',
+      title: 'Last Changed',
       minWidth: 100,
-      render: (h, params) => (h('div', (params.row.size / 1000000).toFixed(2))),
+      render: (h, params) => (h('div', (moment(new Date(params.row.birthtime)).format('DD-MM-YYYY hh:mm')))),
     },
   ];
 }

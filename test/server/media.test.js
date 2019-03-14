@@ -9,39 +9,72 @@ test.before(async (t) => {
   t.pass();
 });
 
-test.serial('get directory tree', async (t) => {
+test.serial('get tree', async (t) => {
   const response = await request(uri)
     .post('/graphql')
     .set('Accept', 'application/json')
     .send({
       query: `
-      query getTree($path: String) {
-        getTree(path: $path) {
-          path
+      query getTree($id: String, $sig: Int) {
+        getTree(id: $id, sig: $sig) {
+          route
+          base
+          thumbnail
           name
-          size
-          extension
+          ext
           type
+          id
+          birthtime
+          size
+          parentId
+          mimeType
+          breadcrumb {
+            label
+            to
+          }
           children {
-            path
+            route
+            base
+            thumbnail
             name
-            size
-            extension
+            ext
             type
+            id
+            birthtime
+            size
+            parentId
+            mimeType
           }
         }
       }`,
       variables: {
-        // path: null,
-        // path: '/SPECIAL_EVENTS/Test',
-        // path: '/SPECIAL_EVENTS/wp',
-        path: '/SPECIAL_EVENTS/Test/Test/wp',
+        // id: '',
+        id: '98e7cadf-b0c3-3b8e-9dc2-f318aef235c7',
+        sig: 0,
       },
     })
     .expect(200);
 
   const { getTree } = response.body.data;
-  t.is(getTree, '');
+  t.is(getTree[0].breadcrumb[0], '');
+});
+
+test.serial('gen tree', async (t) => {
+  const response = await request(uri)
+    .post('/graphql')
+    .set('Accept', 'application/json')
+    .send({
+      query: `
+      query {
+        genTree {
+          result
+        }
+      }`,
+    })
+    .expect(200);
+
+  const { result } = response.body.data.genTree;
+  t.true(result);
 });
 
 test.serial('generate thumbnail', async (t) => {

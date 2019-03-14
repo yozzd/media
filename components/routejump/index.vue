@@ -8,10 +8,10 @@
               v-for="(c, idx) in tData"
               :key="idx"
               :title="truncate(c.name, 40)"
-              :to="`${path}/${c.name.split(c.extension)[0]}`"
-              :selected="$route.path === `${path}/${c.name.split(c.extension)[0]}`"
+              :to="c.id"
+              :selected="$route.params.slug1 === c.id"
             >
-              <img slot="extra" v-lazy="thumb(c.path)" />
+              <img slot="extra" v-lazy="c.thumbnail" />
             </Cell>
             <no-ssr>
               <infinite-loading
@@ -37,21 +37,19 @@ import { Vue, Component } from 'vue-property-decorator';
     data: {
       type: Array,
     },
-    path: {
-      type: String,
-    },
   },
 })
 class RouteJump extends Vue {
   tData = [];
 
   async mounted() {
+    const { slug1 } = this.$route.params;
     const arr1 = Object.values(this.data);
-    const idx1 = await Promise.resolve(arr1.findIndex(v => this.$route.path === `${this.path}/${v.name.split(v.extension)[0]}`));
+    const idx1 = await Promise.resolve(arr1.findIndex(v => slug1 === v.id));
     this.tData.push(...this.data.slice(0, (Math.floor(idx1 / 9) + 1.5) * 10));
 
     const arr2 = Object.values(this.tData);
-    const idx2 = await Promise.resolve(arr2.findIndex(v => this.$route.path === `${this.path}/${v.name.split(v.extension)[0]}`));
+    const idx2 = await Promise.resolve(arr2.findIndex(v => slug1 === v.id));
     const el = this.$el.querySelector('.ivu-scroll-container');
     el.scrollTop = 85 * idx2;
     return true;
@@ -68,16 +66,10 @@ class RouteJump extends Vue {
       $state.complete();
     } else {
       setTimeout(() => {
-        this.tData.push(...this.data.slice(last + 1, last + 11));
+        this.tData.push(...this.data.slice(last, last + 10));
         $state.loaded();
       }, 1000);
     }
-  }
-
-  thumb = (path) => {
-    const p = path.split('static')[1];
-    const t = p.replace('media', 'thumbnails');
-    return `${t}.png`;
   }
 }
 

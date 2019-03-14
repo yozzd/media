@@ -1,3 +1,4 @@
+const fs = require('fs-extra');
 const {
   GraphQLObjectType,
   GraphQLList,
@@ -5,27 +6,58 @@ const {
   GraphQLFloat,
   GraphQLBoolean,
 } = require('graphql');
+const { GraphQLDateTime } = require('graphql-iso-date');
 
 const ChildrenType = new GraphQLObjectType({
   name: 'ChildrenType',
   fields: () => ({
-    path: { type: GraphQLString },
+    route: { type: GraphQLString },
+    base: { type: GraphQLString },
+    thumbnail: { type: GraphQLString },
     name: { type: GraphQLString },
-    size: { type: GraphQLFloat },
-    extension: { type: GraphQLString },
+    ext: { type: GraphQLString },
     type: { type: GraphQLString },
+    id: { type: GraphQLString },
+    birthtime: { type: GraphQLDateTime },
+    size: { type: GraphQLFloat },
+    parentId: { type: GraphQLString },
+    mimeType: { type: GraphQLString },
+  }),
+});
+
+const BreadcrumbType = new GraphQLObjectType({
+  name: 'BreadcrumbType',
+  fields: () => ({
+    label: { type: GraphQLString },
+    to: { type: GraphQLString },
   }),
 });
 
 const MediaType = new GraphQLObjectType({
   name: 'MediaType',
   fields: () => ({
-    path: { type: GraphQLString },
+    route: { type: GraphQLString },
+    base: { type: GraphQLString },
+    thumbnail: { type: GraphQLString },
     name: { type: GraphQLString },
-    size: { type: GraphQLFloat },
-    extension: { type: GraphQLString },
+    ext: { type: GraphQLString },
     type: { type: GraphQLString },
-    children: { type: new GraphQLList(ChildrenType) },
+    id: { type: GraphQLString },
+    birthtime: { type: GraphQLDateTime },
+    size: { type: GraphQLFloat },
+    parentId: { type: GraphQLString },
+    mimeType: { type: GraphQLString },
+    breadcrumb: { type: new GraphQLList(BreadcrumbType) },
+    children: {
+      type: new GraphQLList(ChildrenType),
+      resolve: async (p) => {
+        const dirTree = await fs.readJson('./tools/dirTree.json');
+        if (p.type === 'file') {
+          return [];
+        }
+        return dirTree.filter(v => v.parentId === p.id);
+      },
+    },
   }),
 });
 

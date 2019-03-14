@@ -2,15 +2,18 @@
   <div>
     <Row type="flex" justify="space-between" :gutter="20" class="player">
       <Col :md="16" :lg="17" :xxl="20">
-      <vue-plyr v-if="data.extension === '.mp4'" :options="options">
-        <video :src="getFile"></video>
+      <vue-plyr
+        v-if="data.mimeType.split('/')[0] === 'video'"
+        :options="options"
+      >
+        <video :src="data.base" :style="style"></video>
       </vue-plyr>
-      <div v-else class="img-container">
-        <img v-lazy="getFile" />
+      <div v-else class="img-container" :style="style">
+        <img v-lazy="data.base" />
       </div>
       </Col>
       <Col :md="8" :lg="7" :xxl="4">
-      <route-jump :data="getChildren" :path="path" />
+      <route-jump v-if="getTree" :data="getTree" />
       </Col>
     </Row>
   </div>
@@ -19,7 +22,7 @@
 <script>
 import { Vue, Component } from 'vue-property-decorator';
 import RouteJump from '../routejump/index.vue';
-import { GET_TREE } from '../../apollo/queries/media';
+import GET_TREE from '../../apollo/queries/media';
 
 @Component({
   components: {
@@ -35,24 +38,16 @@ import { GET_TREE } from '../../apollo/queries/media';
     getTree: {
       query: GET_TREE,
       variables() {
-        const arr = Object.values(this.$route.params);
-        const path = arr.reduce((r, v, k) => {
-          if ((k + 1) < arr.length) {
-            r += `/${v}`;
-          }
-          r += '';
-          return r;
-        }, '');
-
-        this.path = path;
-        return {
-          path,
-        };
+        return { id: this.$route.params.slug1, sig: 1 };
       },
     },
   },
 })
 class Plyr extends Vue {
+  style = {
+    height: '',
+  };
+
   options = {
     controls: [
       'play-large',
@@ -69,14 +64,12 @@ class Plyr extends Vue {
     invertTime: false,
   };
 
-  get getFile() {
-    return this.data.path.split('static')[1];
-  }
-
-  get getChildren() {
-    const arr = Object.values(this.getTree.children);
-    const filter = arr.filter(v => v.type !== 'directory');
-    return filter;
+  mounted() {
+    const e = this.$el.querySelector('.plyr video');
+    const el = !e ? this.$el.querySelector('.img-container') : e;
+    this.style = {
+      height: `${(el.clientWidth / 2) + 50}px`,
+    };
   }
 }
 
@@ -93,7 +86,7 @@ export default Plyr;
   background-color: #000;
 }
 .img-container > img {
-  width: 100%;
+  width: auto;
   height: 100%;
 }
 </style>

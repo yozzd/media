@@ -1,28 +1,38 @@
 import gql from 'graphql-tag';
 
-export const GET_TREE = gql`
-  query getTree($path: String) {
-    getTree(path: $path) {
-      path
+const GET_TREE = gql`
+  query getTree($id: String, $sig: Int) {
+    getTree(id: $id, sig: $sig) {
+      route
+      base
+      thumbnail
       name
-      size
-      extension
+      ext
       type
+      id
+      birthtime
+      size
+      parentId
+      mimeType
+      breadcrumb {
+        label
+        to
+      }
       children {
-        path
+        route
+        base
+        thumbnail
         name
-        size
-        extension
+        ext
         type
+        id
+        birthtime
+        size
+        parentId
+        mimeType
       }
     }
   }
 `;
 
-export const DIR = gql`
-  query getBaseDirectories($directory: String) {
-    getBaseDirectories(directory: $directory) {
-      directories
-    }
-  }
-`;
+export default GET_TREE;
