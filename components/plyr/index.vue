@@ -22,7 +22,7 @@
 <script>
 import { Vue, Component } from 'vue-property-decorator';
 import RouteJump from '../routejump/index.vue';
-import GET_TREE from '../../apollo/queries/media';
+import { GET_TREE } from '../../apollo/queries/media';
 
 @Component({
   components: {

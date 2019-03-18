@@ -1,6 +1,7 @@
 const _ = require('lodash');
 const path = require('path');
 const fs = require('fs-extra');
+const sortBy = require('lodash/sortBy');
 const glob = require('glob');
 const ffmpeg = require('ffmpeg-static');
 const genThumbnail = require('simple-thumbnail');
@@ -62,7 +63,9 @@ const fileType = (b, p) => {
 
   if (type === 'dir') {
     fs.ensureDirSync(`static/thumbnails/${route}`);
-  } else if (type === 'file' && !fs.pathExistsSync(`static/thumbnails/${route}.png`)) {
+  } else if (
+    type === 'file' && !fs.pathExistsSync(`static/thumbnails/${route}.png`)
+  ) {
     genThumbnail(p, `static/thumbnails/${route}.png`, '?x70', {
       path: ffmpeg.path,
       seek: mimeType.split('/')[0] === 'video' ? '00:00:05.000' : false,
@@ -89,7 +92,11 @@ const generateTree = async (cwd = 'static/media') => {
   let parentId;
   let id;
   const p = {
-    p1id: '', p2id: '', p3id: '', p4id: '', p5id: '',
+    p1id: '',
+    p2id: '',
+    p3id: '',
+    p4id: '',
+    p5id: '',
   };
 
   const tree = await Promise.all(
@@ -169,7 +176,54 @@ const generateTree = async (cwd = 'static/media') => {
   return { result: true };
 };
 
+const tree = async (args) => {
+  const limit = 10;
+  const dirTree = await fs.readJson('./tools/dirTree.json');
+  if (args.id === '' && args.sig === 0) {
+    return dirTree.filter(v => v.parentId === args.id);
+  } if (args.id && args.sig === 0) {
+    return dirTree.filter(v => v.id === args.id);
+  }
+  let start;
+  let end;
+  let c;
+  const f = dirTree.find(v => v.id === args.id);
+  const sortTree = sortBy(
+    dirTree.filter(v => v.parentId === f.parentId && v.type === 'file'),
+    'name',
+  );
+  const index = sortTree.findIndex(v => v.id === args.id);
+  const pt = Math.floor(index / limit) * limit;
+  if (!args.infinite && !args.direction) {
+    start = pt;
+    end = pt + limit;
+  } else if (args.infinite && args.direction === 0) {
+    if (index > 9) {
+      start = pt - limit;
+      end = pt;
+    } else {
+      c = 1;
+    }
+  } else {
+    start = pt + limit;
+    end = start + limit;
+  }
+  return c === 1 ? [] : sortTree.slice(start, end);
+};
+
+const total = async (args) => {
+  const dirTree = await fs.readJson('./tools/dirTree.json');
+  const f = dirTree.find(v => v.id === args.id);
+  const d = sortBy(
+    dirTree.filter(v => v.parentId === f.parentId && v.type === 'file'),
+    'name',
+  );
+  return { total: d.length };
+};
+
 module.exports = {
   generateThumbnail,
   generateTree,
+  tree,
+  total,
 };

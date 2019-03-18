@@ -2,8 +2,14 @@
   <div>
     <Row type="flex" class="content">
       <Card title="List" icon="ios-options" :padding="0" shadow>
-        <Scroll height="400">
+        <Scroll height="500">
           <CellGroup>
+            <no-ssr>
+              <infinite-loading
+                direction="top"
+                @infinite="infiniteHandlerTop"
+              ></infinite-loading>
+            </no-ssr>
             <Cell
               v-for="(c, idx) in tData"
               :key="idx"
@@ -11,12 +17,11 @@
               :to="c.id"
               :selected="$route.params.slug1 === c.id"
             >
-              <img slot="extra" v-lazy="c.thumbnail" />
+              <img slot="extra" :key="c.id" v-lazy="c.thumbnail" />
             </Cell>
             <no-ssr>
               <infinite-loading
-                v-if="tData.length < data.length"
-                @infinite="infiniteHandler"
+                @infinite="infiniteHandlerBottom"
               ></infinite-loading>
             </no-ssr>
           </CellGroup>
@@ -24,13 +29,14 @@
       </Card>
     </Row>
     <Row type="flex" class="info">
-      <Alert>Showing {{ tData.length }} results from total {{ data.length }}</Alert>
+      <Alert>Showing {{ tData.length }} results from total {{ getTotal.total }}</Alert>
     </Row>
   </div>
 </template>
 
 <script>
 import { Vue, Component } from 'vue-property-decorator';
+import { GET_TREE, GET_TOTAL } from '../../apollo/queries/media';
 
 @Component({
   props: {
@@ -38,9 +44,21 @@ import { Vue, Component } from 'vue-property-decorator';
       type: Array,
     },
   },
+  apollo: {
+    getTotal: {
+      query: GET_TOTAL,
+      variables() {
+        return { id: this.$route.params.slug1 };
+      },
+    },
+  },
 })
 class RouteJump extends Vue {
   tData = [];
+
+  getTotal = {
+    total: 0,
+  }
 
   async mounted() {
     const { slug1 } = this.$route.params;
@@ -60,15 +78,41 @@ class RouteJump extends Vue {
     return t;
   }
 
-  infiniteHandler($state) {
-    const last = this.tData.length;
-    if (last === (this.data.length - 1)) {
-      $state.complete();
+  async infiniteHandlerTop($state) {
+    const client = this.$apollo.getClient();
+    const { data } = await client.query({
+      query: GET_TREE,
+      variables: {
+        id: this.tData[0].id,
+        sig: 1,
+        infinite: true,
+        direction: 0,
+      },
+    });
+    if (data.getTree.length) {
+      this.tData.unshift(...data.getTree);
+      $state.loaded();
     } else {
-      setTimeout(() => {
-        this.tData.push(...this.data.slice(last, last + 10));
-        $state.loaded();
-      }, 1000);
+      $state.complete();
+    }
+  }
+
+  async infiniteHandlerBottom($state) {
+    const client = this.$apollo.getClient();
+    const { data } = await client.query({
+      query: GET_TREE,
+      variables: {
+        id: this.tData[this.tData.length - 1].id,
+        sig: 1,
+        infinite: true,
+        direction: 1,
+      },
+    });
+    if (data.getTree.length) {
+      this.tData.push(...data.getTree);
+      $state.loaded();
+    } else {
+      $state.complete();
     }
   }
 }

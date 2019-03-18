@@ -15,8 +15,8 @@ test.serial('get tree', async (t) => {
     .set('Accept', 'application/json')
     .send({
       query: `
-      query getTree($id: String, $sig: Int) {
-        getTree(id: $id, sig: $sig) {
+      query getTree($id: String, $sig: Int, $start: Int, $scroll: Boolean) {
+        getTree(id: $id, sig: $sig, start: $start, scroll: $scroll) {
           route
           base
           thumbnail
@@ -50,7 +50,9 @@ test.serial('get tree', async (t) => {
       variables: {
         // id: '',
         id: '98e7cadf-b0c3-3b8e-9dc2-f318aef235c7',
-        sig: 0,
+        sig: 1,
+        start: 0,
+        scroll: true,
       },
     })
     .expect(200);

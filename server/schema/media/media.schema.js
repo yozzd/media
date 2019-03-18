@@ -1,7 +1,16 @@
-const fs = require('fs-extra');
-const { GraphQLString, GraphQLList, GraphQLInt } = require('graphql');
-const { MediaType, GenType } = require('./media.type');
-const { generateThumbnail, generateTree } = require('./media.method');
+const {
+  GraphQLString,
+  GraphQLList,
+  GraphQLInt,
+  GraphQLBoolean,
+} = require('graphql');
+const { MediaType, GenType, TotalType } = require('./media.type');
+const {
+  generateThumbnail,
+  generateTree,
+  tree,
+  total,
+} = require('./media.method');
 
 
 const Query = {
@@ -10,17 +19,28 @@ const Query = {
     args: {
       id: { type: GraphQLString },
       sig: { type: GraphQLInt },
+      start: { type: GraphQLInt },
+      infinite: { type: GraphQLBoolean },
+      direction: { type: GraphQLInt },
     },
     resolve: async (p, args) => {
       try {
-        const dirTree = await fs.readJson('./tools/dirTree.json');
-        if (args.id === '' && args.sig === 0) {
-          return dirTree.filter(v => v.parentId === args.id);
-        } if (args.id && args.sig === 0) {
-          return dirTree.filter(v => v.id === args.id);
-        }
-        const f = dirTree.find(v => v.id === args.id);
-        return dirTree.filter(v => v.parentId === f.parentId && v.type === 'file');
+        const r = await tree(args);
+        return r;
+      } catch (err) {
+        throw err;
+      }
+    },
+  },
+  getTotal: {
+    type: TotalType,
+    args: {
+      id: { type: GraphQLString },
+    },
+    resolve: async (p, args) => {
+      try {
+        const t = await total(args);
+        return t;
       } catch (err) {
         throw err;
       }

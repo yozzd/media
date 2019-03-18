@@ -5,6 +5,7 @@ const {
   GraphQLString,
   GraphQLFloat,
   GraphQLBoolean,
+  GraphQLInt,
 } = require('graphql');
 const { GraphQLDateTime } = require('graphql-iso-date');
 
@@ -68,7 +69,15 @@ const GenType = new GraphQLObjectType({
   }),
 });
 
+const TotalType = new GraphQLObjectType({
+  name: 'TotalType',
+  fields: () => ({
+    total: { type: GraphQLInt },
+  }),
+});
+
 module.exports = {
   MediaType,
   GenType,
+  TotalType,
 };

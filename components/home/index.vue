@@ -15,7 +15,7 @@
 import moment from 'moment';
 import { Vue, Component } from 'vue-property-decorator';
 import DataTable from '../datatable/index.vue';
-import GET_TREE from '../../apollo/queries/media';
+import { GET_TREE } from '../../apollo/queries/media';
 
 @Component({
   components: {

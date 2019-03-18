@@ -21,7 +21,7 @@ import { Vue, Component } from 'vue-property-decorator';
 import BreadCrumb from '../breadcrumb/index.vue';
 import Plyr from '../plyr/index.vue';
 import DataTable from '../datatable/index.vue';
-import GET_TREE from '../../apollo/queries/media';
+import { GET_TREE } from '../../apollo/queries/media';
 
 @Component({
   components: {
