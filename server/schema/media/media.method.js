@@ -222,9 +222,14 @@ const total = async (args) => {
   return { total: d.length };
 };
 
+const gTree = async () => {
+  return dirTree;
+}
+
 module.exports = {
   generateThumbnail,
   generateTree,
   tree,
   total,
+  gTree,
 };

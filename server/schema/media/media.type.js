@@ -1,4 +1,4 @@
-const fs = require('fs-extra');
+const { gTree } = require('./media.method.js');
 const {
   GraphQLObjectType,
   GraphQLList,
@@ -52,7 +52,7 @@ const MediaType = new GraphQLObjectType({
     children: {
       type: new GraphQLList(ChildrenType),
       resolve: async (p) => {
-        const dirTree = await fs.readJson('./tools/dirTree.json');
+        const dirTree = await gTree();
         if (p.type === 'file') {
           return [];
         }
