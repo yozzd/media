@@ -13,7 +13,8 @@
       </div>
       </Col>
       <Col :md="8" :lg="7" :xxl="4">
-      <route-jump v-if="getTree" :data="getTree" />
+      <Spin v-if="$apollo.loading" size="large" fix></Spin>
+      <route-jump v-else :data="getTree" />
       </Col>
     </Row>
   </div>
