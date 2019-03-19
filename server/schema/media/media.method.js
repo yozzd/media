@@ -8,6 +8,8 @@ const genThumbnail = require('simple-thumbnail');
 const getUuid = require('uuid-by-string');
 const mime = require('mime');
 
+let dirTree;
+
 const generateThumbnail = async () => {
   const tree1 = await glob.sync('**/*', { cwd: 'static/media/' });
   const tr = await glob.sync('**/*', { cwd: 'static/thumbnails/' });
@@ -172,13 +174,13 @@ const generateTree = async (cwd = 'static/media') => {
     }, []),
   );
   await fs.writeJson('./tools/dirTree.json', tree);
+  dirTree = await fs.readJson('./tools/dirTree.json');
 
   return { result: true };
 };
 
 const tree = async (args) => {
   const limit = 10;
-  const dirTree = await fs.readJson('./tools/dirTree.json');
   if (args.id === '' && args.sig === 0) {
     return dirTree.filter(v => v.parentId === args.id);
   } if (args.id && args.sig === 0) {
@@ -212,7 +214,6 @@ const tree = async (args) => {
 };
 
 const total = async (args) => {
-  const dirTree = await fs.readJson('./tools/dirTree.json');
   const f = dirTree.find(v => v.id === args.id);
   const d = sortBy(
     dirTree.filter(v => v.parentId === f.parentId && v.type === 'file'),
