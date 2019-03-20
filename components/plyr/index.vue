@@ -1,7 +1,7 @@
 <template>
   <div>
     <Row type="flex" justify="space-between" :gutter="20" class="player">
-      <Col :md="16" :lg="17" :xxl="20">
+      <Col :md="16" :lg="17" :xxl="19">
       <vue-plyr
         v-if="data.mimeType.split('/')[0] === 'video'"
         :options="options"
@@ -12,7 +12,7 @@
         <img v-lazy="data.base" />
       </div>
       </Col>
-      <Col :md="8" :lg="7" :xxl="4">
+      <Col :md="8" :lg="7" :xxl="5">
       <Spin v-if="$apollo.loading" size="large" fix></Spin>
       <route-jump v-else :data="getTree" />
       </Col>
