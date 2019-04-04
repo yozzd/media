@@ -1,4 +1,3 @@
-const { gTree } = require('./media.method.js');
 const {
   GraphQLObjectType,
   GraphQLList,
@@ -8,6 +7,7 @@ const {
   GraphQLInt,
 } = require('graphql');
 const { GraphQLDateTime } = require('graphql-iso-date');
+const { gTree } = require('./media.method.js');
 
 const ChildrenType = new GraphQLObjectType({
   name: 'ChildrenType',
