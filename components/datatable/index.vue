@@ -85,7 +85,7 @@ import _ from 'lodash';
     },
     pageSizes: {
       type: Array,
-      default: () => ([10, 50, 100, 200]),
+      default: () => ([60, 120, 180, 240]),
     },
   },
 })
@@ -101,7 +101,7 @@ class DataTable extends Vue {
       if (pageSizes.length > 0) {
         return pageSizes[0];
       }
-      return 20;
+      return 60;
     })(),
   };
 
